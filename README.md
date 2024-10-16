@@ -11,9 +11,9 @@
 
 ## Table of Contents
 
-<table style="width: 100%; border-collapse: collapse;">
-<tr style="border: none;">
-<td width="50%" valign="top" style="border: none; padding: 10px;">
+<table style="width: 100%; border-collapse: collapse; border: none; background: none;">
+<tr style="border: none; background: none;">
+<td width="50%" valign="top" style="border: none; padding: 10px; background: none;">
 
 1. [Introduction](#introduction)
 2. [Features](#features)
@@ -25,13 +25,14 @@
 8. [Contribution and Contact](#contribution-and-contact)
 
 </td>
-<td width="50%" align="center" style="border: none; padding: 10px;">
+<td width="50%" align="right" style="border: none; padding: 10px; background: none;">
 
 <img src="doc/images/logo.png" alt="Virtual Order Book for Uniswap V2" style="width: 300px; height: 300px; max-width: 100%;">
 
 </td>
 </tr>
 </table>
+
 
 
 
