@@ -1,9 +1,3 @@
-/******************************************************************************
-   Author: Joaquín Béjar García
-   Email: jb@taunais.com
-   Date: 10/10/24
-******************************************************************************/
-
 use crate::constants::{BLOCK_OFFSET, BLOCK_RANGE, ETH_USDT_PAIR_ADDRESS, INFURA_URL, SWAP_EVENT_SIGNATURE};
 use std::env;
 use std::future::Future;
