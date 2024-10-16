@@ -381,7 +381,7 @@ pub(crate) fn calculate_effective_price(
         // Selling ETH for USDT
         Decimal::one() / price
     }
-        .round_dp(6)
+    .round_dp(6)
 }
 
 /// Converts a `U256` value to a `f64` by considering the number of decimals.
@@ -433,6 +433,7 @@ fn adjust_decimals(amount: U256, decimals: u32) -> Decimal {
 ///
 /// * An `H256` type which represents the keccak256 hash of the event signature.
 ///
+#[allow(dead_code)]
 fn create_event_signature(name: &str, params: &[ParamType]) -> H256 {
     let hash = ethabi::long_signature(name, params);
     H256::from_slice(&hash.0)
@@ -441,8 +442,8 @@ fn create_event_signature(name: &str, params: &[ParamType]) -> H256 {
 #[cfg(test)]
 mod tests_uniswap_event {
     use super::*;
-    use web3::types::{Address, U256};
     use rust_decimal::Decimal;
+    use web3::types::{Address, U256};
 
     #[test]
     fn test_side_display() {
@@ -472,7 +473,10 @@ mod tests_uniswap_event {
         };
 
         match sync_event {
-            UniswapEvent::Sync { reserve_eth, reserve_usdt } => {
+            UniswapEvent::Sync {
+                reserve_eth,
+                reserve_usdt,
+            } => {
                 assert_eq!(reserve_eth, U256::from(1000u64));
                 assert_eq!(reserve_usdt, U256::from(2000u64));
             }
@@ -494,7 +498,16 @@ mod tests_uniswap_event {
         };
 
         match swap_event {
-            UniswapEvent::Swap { sender, eth_in, usdt_in, eth_out, usdt_out, to, effective_price, side } => {
+            UniswapEvent::Swap {
+                sender,
+                eth_in,
+                usdt_in,
+                eth_out,
+                usdt_out,
+                to,
+                effective_price,
+                side,
+            } => {
                 assert_eq!(sender, Address::from_low_u64_be(1));
                 assert_eq!(eth_in, U256::from(1u64));
                 assert_eq!(usdt_in, U256::from(100u64));
@@ -538,8 +551,8 @@ mod tests_uniswap_event {
 #[cfg(test)]
 mod tests_decode_event {
     use super::*;
-    use ethabi::{Token};
-    use web3::types::{Log, U256, Address, Bytes};
+    use ethabi::Token;
+    use web3::types::{Address, Bytes, Log, U256};
 
     fn create_log(topics: Vec<H256>, data: Vec<u8>) -> Log {
         Log {
@@ -559,23 +572,25 @@ mod tests_decode_event {
 
     #[test]
     fn test_decode_sync_event() {
-        let sync_signature = create_event_signature("Sync", &[
-            ParamType::Uint(256),
-            ParamType::Uint(256),
-        ]);
+        let sync_signature =
+            create_event_signature("Sync", &[ParamType::Uint(256), ParamType::Uint(256)]);
 
         let log = create_log(
             vec![sync_signature],
             ethabi::encode(&[
-                Token::Uint(U256::from(1000)),  // reserve_eth
-                Token::Uint(U256::from(2000)),  // reserve_usdt
+                Token::Uint(U256::from(1000)), // reserve_eth
+                Token::Uint(U256::from(2000)), // reserve_usdt
             ]),
         );
 
         let decoded = decode_event(&log);
         assert!(decoded.is_some());
 
-        if let Some(UniswapEvent::Sync { reserve_eth, reserve_usdt }) = decoded {
+        if let Some(UniswapEvent::Sync {
+            reserve_eth,
+            reserve_usdt,
+        }) = decoded
+        {
             assert_eq!(reserve_eth, U256::from(1000));
             assert_eq!(reserve_usdt, U256::from(2000));
         } else {
@@ -585,36 +600,45 @@ mod tests_decode_event {
 
     #[test]
     fn test_decode_swap_event() {
-        let swap_signature = create_event_signature("Swap", &[
-            ParamType::Address,
-            ParamType::Uint(256),
-            ParamType::Uint(256),
-            ParamType::Uint(256),
-            ParamType::Uint(256),
-            ParamType::Address,
-        ]);
+        let swap_signature = create_event_signature(
+            "Swap",
+            &[
+                ParamType::Address,
+                ParamType::Uint(256),
+                ParamType::Uint(256),
+                ParamType::Uint(256),
+                ParamType::Uint(256),
+                ParamType::Address,
+            ],
+        );
 
         let sender = Address::from_low_u64_be(1);
         let to = Address::from_low_u64_be(2);
 
         let log = create_log(
-            vec![
-                swap_signature,
-                H256::from(sender),
-                H256::from(to),
-            ],
+            vec![swap_signature, H256::from(sender), H256::from(to)],
             ethabi::encode(&[
-                Token::Uint(U256::from(100)),  // eth_in
-                Token::Uint(U256::from(0)),    // usdt_in
-                Token::Uint(U256::from(0)),    // eth_out
-                Token::Uint(U256::from(200)),  // usdt_out
+                Token::Uint(U256::from(100)), // eth_in
+                Token::Uint(U256::from(0)),   // usdt_in
+                Token::Uint(U256::from(0)),   // eth_out
+                Token::Uint(U256::from(200)), // usdt_out
             ]),
         );
 
         let decoded = decode_event(&log);
         assert!(decoded.is_some());
 
-        if let Some(UniswapEvent::Swap { sender: s, eth_in, usdt_in, eth_out, usdt_out, to: t, effective_price: _, side }) = decoded {
+        if let Some(UniswapEvent::Swap {
+            sender: s,
+            eth_in,
+            usdt_in,
+            eth_out,
+            usdt_out,
+            to: t,
+            effective_price: _,
+            side,
+        }) = decoded
+        {
             assert_eq!(s, sender);
             assert_eq!(t, to);
             assert_eq!(eth_in, U256::from(100));
@@ -628,7 +652,6 @@ mod tests_decode_event {
         }
     }
 
-
     #[test]
     fn test_decode_unknown_event() {
         let unknown_signature = H256::random();
@@ -640,10 +663,8 @@ mod tests_decode_event {
 
     #[test]
     fn test_decode_malformed_sync_event() {
-        let sync_signature = create_event_signature("Sync", &[
-            ParamType::Uint(256),
-            ParamType::Uint(256),
-        ]);
+        let sync_signature =
+            create_event_signature("Sync", &[ParamType::Uint(256), ParamType::Uint(256)]);
 
         let log = create_log(
             vec![sync_signature],
@@ -659,14 +680,17 @@ mod tests_decode_event {
 
     #[test]
     fn test_decode_malformed_swap_event() {
-        let swap_signature = create_event_signature("Swap", &[
-            ParamType::Address,
-            ParamType::Uint(256),
-            ParamType::Uint(256),
-            ParamType::Uint(256),
-            ParamType::Uint(256),
-            ParamType::Address,
-        ]);
+        let swap_signature = create_event_signature(
+            "Swap",
+            &[
+                ParamType::Address,
+                ParamType::Uint(256),
+                ParamType::Uint(256),
+                ParamType::Uint(256),
+                ParamType::Uint(256),
+                ParamType::Address,
+            ],
+        );
 
         let log = create_log(
             vec![swap_signature],
@@ -699,7 +723,6 @@ mod tests_format_event {
         let tx_hash = Some(H256::random());
 
         let result = format_event(&event, block_number, tx_hash);
-
 
         assert!(result.contains("Sync Event"));
         assert!(result.contains("Block: Some(12345678)"));
@@ -770,7 +793,9 @@ mod tests_format_token_amount {
     fn test_format_token_amount_max_value() {
         let amount = U256::max_value();
         let formatted = format_token_amount(amount, 18);
-        assert!(formatted.starts_with("115792089237316195423570985008687907853269984665640564039457"));
+        assert!(
+            formatted.starts_with("115792089237316195423570985008687907853269984665640564039457")
+        );
         assert_eq!(formatted.len(), 79); // 1 (dot) + 18 (decimals) + 59 (digits before dot)
     }
 }
@@ -779,7 +804,6 @@ mod tests_format_token_amount {
 mod tests_calculate_price {
     use super::*;
     use web3::types::U256;
-
 
     #[test]
     fn test_calculate_price_normal_case() {
@@ -839,10 +863,9 @@ mod tests_calculate_price {
 
 #[cfg(test)]
 mod tests_calculate_effective_price {
-    use rust_decimal_macros::dec;
-    use crate::utils::logger::setup_logger;
     use super::*;
-
+    use crate::utils::logger::setup_logger;
+    use rust_decimal_macros::dec;
 
     #[test]
     fn test_calculate_effective_price_buy_eth() {
@@ -872,7 +895,8 @@ mod tests_calculate_effective_price {
     fn test_calculate_effective_price_both_zero() {
         setup_logger();
 
-        let price = calculate_effective_price(U256::zero(), U256::zero(), U256::zero(), U256::zero());
+        let price =
+            calculate_effective_price(U256::zero(), U256::zero(), U256::zero(), U256::zero());
         assert_eq!(price, dec!(1));
     }
 
@@ -880,7 +904,12 @@ mod tests_calculate_effective_price {
     fn test_calculate_effective_price_eth_zero() {
         setup_logger();
 
-        let price = calculate_effective_price(U256::zero(), U256::from(1000_000000), U256::zero(), U256::zero());
+        let price = calculate_effective_price(
+            U256::zero(),
+            U256::from(1000_000000),
+            U256::zero(),
+            U256::zero(),
+        );
         assert_eq!(price, Decimal::MAX);
     }
 
@@ -888,7 +917,12 @@ mod tests_calculate_effective_price {
     fn test_calculate_effective_price_usdt_zero() {
         setup_logger();
 
-        let price = calculate_effective_price(U256::from(1_000000000000000000u64), U256::zero(), U256::zero(), U256::zero());
+        let price = calculate_effective_price(
+            U256::from(1_000000000000000000u64),
+            U256::zero(),
+            U256::zero(),
+            U256::zero(),
+        );
         assert_eq!(price, dec!(0.000001));
     }
 
@@ -898,7 +932,7 @@ mod tests_calculate_effective_price {
         let eth_in = U256::from(1000_000000000000000000u128); // 1000 ETH
         let usdt_in = U256::zero();
         let eth_out = U256::zero();
-        let usdt_out = U256::from(3000000_000000u128); // 3,000,000 USDT
+        let usdt_out = U256::from(3_000_000_000_000_u128); // 3,000,000 USDT
 
         let price = calculate_effective_price(eth_in, usdt_in, eth_out, usdt_out);
         assert_eq!(price, dec!(3000.000000));
@@ -981,8 +1015,8 @@ mod tests_u256_to_f64 {
 
 #[cfg(test)]
 mod tests_adjust_decimals {
-    use rust_decimal_macros::dec;
     use super::*;
+    use rust_decimal_macros::dec;
 
     #[test]
     fn test_adjust_decimals_no_adjustment() {
