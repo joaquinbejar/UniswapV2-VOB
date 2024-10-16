@@ -1,5 +1,5 @@
 [package]
-name = "uniswapv2-vob"
+name = "uniswapv2_vob"
 version = "0.1.0"
 edition = "2021"
 authors = ["Joaquin Bejar <jb@taunais.com>"]

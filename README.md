@@ -1,8 +1,8 @@
 # Virtual Order Book for Uniswap V2
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Crates.io](https://img.shields.io/crates/v/uniswapv2-vob.svg)](https://crates.io/crates/uniswapv2-vob)
-[![Downloads](https://img.shields.io/crates/d/uniswapv2-vob.svg)](https://crates.io/crates/uniswapv2-vob)
+[![Crates.io](https://img.shields.io/crates/v/uniswapv2_vob.svg)](https://crates.io/crates/uniswapv2_vob)
+[![Downloads](https://img.shields.io/crates/d/uniswapv2_vob.svg)](https://crates.io/crates/uniswapv2_vob)
 [![Stars](https://img.shields.io/github/stars/joaquinbejar/UniswapV2-VOB.svg)](https://github.com/joaquinbejar/UniswapV2-VOB/stargazers)
 
 [![Build Status](https://img.shields.io/github/workflow/status/joaquinbejar/UniswapV2-VOB/CI)](https://github.com/joaquinbejar/UniswapV2-VOB/actions)
