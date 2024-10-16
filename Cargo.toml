@@ -61,6 +61,6 @@ name = "tests"
 path = "tests/unit/mod.rs"
 
 [lib]
-name = "uniswapv2-vob"
+name = "uniswapv2_vob"
 path = "src/lib.rs"
 
