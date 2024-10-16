@@ -74,7 +74,6 @@ impl Display for VirtualOrderBook {
 }
 
 impl VirtualOrderBook {
-
     /// Updates the reserves based on a new swap event. It initializes the reserves using the first two swap events
     /// and continues to update them after initialization.
     ///
@@ -210,7 +209,6 @@ pub(crate) struct DualSideBook {
 }
 
 impl DualSideBook {
-
     /// Initializes a new `DualSideBook` with empty order books for ETH/USDT
     /// and USDT/ETH trading pairs.
     pub(crate) fn new() -> Self {
@@ -277,7 +275,6 @@ impl DualSideBook {
 }
 
 impl Display for DualSideBook {
-
     /// Formats the `DualSideBook` into a readable string representation,
     /// showing the order books for both ETH/USDT and USDT/ETH trading pairs.
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

@@ -1,6 +1,7 @@
 pub(crate) const ETH_USDT_PAIR_ADDRESS: &str = "0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852";
 
-pub(crate) const SWAP_EVENT_SIGNATURE: &str = "Swap(address,address,uint256,uint256,uint256,uint256)";
+pub(crate) const SWAP_EVENT_SIGNATURE: &str =
+    "Swap(address,address,uint256,uint256,uint256,uint256)";
 
 pub(crate) const INFURA_URL: &str = "wss://mainnet.infura.io/ws/v3/";
 

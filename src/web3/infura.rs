@@ -1,4 +1,6 @@
-use crate::constants::{BLOCK_OFFSET, BLOCK_RANGE, ETH_USDT_PAIR_ADDRESS, INFURA_URL, SWAP_EVENT_SIGNATURE};
+use crate::constants::{
+    BLOCK_OFFSET, BLOCK_RANGE, ETH_USDT_PAIR_ADDRESS, INFURA_URL, SWAP_EVENT_SIGNATURE,
+};
 use std::env;
 use std::future::Future;
 use std::str::FromStr;
@@ -77,7 +79,6 @@ pub struct Infura {
 /// This struct provides methods to interact with the Infura infrastructure to
 /// fetch and process Ethereum blockchain logs/events, specifically related to Uniswap
 impl Infura {
-
     /// Creates a new instance of `Infura` and initializes a Web3 connection.
     ///
     /// # Arguments
@@ -211,7 +212,6 @@ impl Infura {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -231,6 +231,4 @@ mod tests {
         env::remove_var("INFURA_API_KEY");
         InfuraConfig::new();
     }
-
-
 }

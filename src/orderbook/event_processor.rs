@@ -26,7 +26,6 @@ pub struct EventProcessor {
 }
 
 impl Default for EventProcessor {
-
     /// Creates a new `EventProcessor` by invoking the `new` method.
     fn default() -> Self {
         Self::new()
@@ -34,7 +33,6 @@ impl Default for EventProcessor {
 }
 
 impl EventProcessor {
-
     /// Constructs a new `EventProcessor` instance with an initialized `DualSideBook`.
     ///
     /// # Returns
@@ -96,8 +94,8 @@ impl EventProcessor {
 mod tests {
     use super::*;
     use crate::events::uniswap::{Side, UniswapEvent};
-    use web3::types::{H160, H256, U256};
     use rust_decimal::Decimal;
+    use web3::types::{H160, H256, U256};
 
     #[tokio::test]
     async fn test_event_processor_new() {
@@ -119,7 +117,9 @@ mod tests {
             reserve_usdt: U256::from(2000000), // Assuming 6 decimals for USDT
         };
 
-        processor.process_event(event, Some(12345), Some(H256::zero())).await;
+        processor
+            .process_event(event, Some(12345), Some(H256::zero()))
+            .await;
 
         // Since we can't easily check the internal state of vob, we'll just ensure
         // that the method doesn't panic
@@ -131,7 +131,7 @@ mod tests {
         let event = UniswapEvent::Swap {
             sender: H160::zero(),
             eth_in: U256::zero(),
-            usdt_in: U256::from(1000000), // 1 USDT
+            usdt_in: U256::from(1000000),                // 1 USDT
             eth_out: U256::from(500000000000000000u128), // 0.5 ETH
             usdt_out: U256::zero(),
             to: H160::zero(),
@@ -139,7 +139,9 @@ mod tests {
             side: Side::Buy,
         };
 
-        processor.process_event(event, Some(12345), Some(H256::zero())).await;
+        processor
+            .process_event(event, Some(12345), Some(H256::zero()))
+            .await;
 
         // Again, we're mainly checking that the method doesn't panic
     }
@@ -153,7 +155,9 @@ mod tests {
             reserve_eth: U256::from(1000),
             reserve_usdt: U256::from(2000000),
         };
-        processor.process_event(sync_event, Some(12345), Some(H256::zero())).await;
+        processor
+            .process_event(sync_event, Some(12345), Some(H256::zero()))
+            .await;
 
         // Process a Swap event
         let swap_event = UniswapEvent::Swap {
@@ -166,7 +170,9 @@ mod tests {
             effective_price: Decimal::new(2000, 0),
             side: Side::Buy,
         };
-        processor.process_event(swap_event, Some(12346), Some(H256::zero())).await;
+        processor
+            .process_event(swap_event, Some(12346), Some(H256::zero()))
+            .await;
 
         // We're mainly ensuring that multiple events can be processed without panicking
     }
