@@ -76,6 +76,7 @@ pub struct Infura {
     pub current_block_number: BlockNumber,
 }
 
+
 /// This struct provides methods to interact with the Infura infrastructure to
 /// fetch and process Ethereum blockchain logs/events, specifically related to Uniswap
 impl Infura {
@@ -149,7 +150,7 @@ impl Infura {
     pub async fn get_logs<F, Fut>(&mut self, process_event: F) -> Result<(), web3::Error>
     where
         F: Fn(Log) -> Fut,
-        Fut: Future<Output = ()>,
+        Fut: Future<Output=()>,
     {
         loop {
             let filter = self.create_filter();
@@ -232,3 +233,4 @@ mod tests {
         InfuraConfig::new();
     }
 }
+
