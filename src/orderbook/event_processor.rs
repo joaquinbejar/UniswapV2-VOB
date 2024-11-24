@@ -76,6 +76,7 @@ impl EventProcessor {
                 effective_price,
                 side,
             } => {
+
                 vob.update_from_swap(eth_in, usdt_in, eth_out, usdt_out, effective_price, side);
                 info!(
                     "Swap event processed from: {} to: {}. Updated Virtual Order Book:\n{}",

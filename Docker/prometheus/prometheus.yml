@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'geth'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+          - 'ethereum-execution:6060'
+
+  - job_name: 'beacon'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+          - 'ethereum-consensus:8080'

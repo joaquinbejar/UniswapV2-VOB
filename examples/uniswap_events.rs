@@ -59,11 +59,12 @@ async fn process_event(event: Log, amm_name: &str) {
 
 #[tokio::main]
 async fn main() -> web3::Result<()> {
-    let infura_api_key = env::var("INFURA_API_KEY").expect("INFURA_API_KEY must be set");
-    let infura_url = format!("wss://mainnet.infura.io/ws/v3/{}", infura_api_key);
-    let websocket = WebSocket::new(&infura_url).await?;
+    // let infura_api_key = env::var("INFURA_API_KEY").expect("INFURA_API_KEY must be set");
+    // let infura_url = format!("wss://mainnet.infura.io/ws/v3/{}", infura_api_key);
+    // let websocket = WebSocket::new(&infura_url).await?;
 
-    // let websocket = WebSocket::new("ws://192.168.1.15:8546").await?;
+    let ws_url = env::var("WS_URL").expect("WS_URL must be set");
+    let websocket = WebSocket::new(&ws_url).await?;
 
     let web3 = Web3::new(websocket);
 
