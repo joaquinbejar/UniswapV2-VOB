@@ -63,6 +63,7 @@ async fn main() -> web3::Result<()> {
     // let infura_url = format!("wss://mainnet.infura.io/ws/v3/{}", infura_api_key);
     // let websocket = WebSocket::new(&infura_url).await?;
 
+    // Use the WS_URL environment variable to connect to a different network
     let ws_url = env::var("WS_URL").expect("WS_URL must be set");
     let websocket = WebSocket::new(&ws_url).await?;
 
