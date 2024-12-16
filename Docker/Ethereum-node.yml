@@ -20,7 +20,7 @@ services:
       - HOME=/home/geth
     command:
       - --datadir=/home/geth/.ethereum
-      - --syncmode=full
+      - --syncmode=snap
       - --verbosity=4
       - --cache=4096
       - --http
