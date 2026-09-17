@@ -11,15 +11,15 @@ use tracing::info;
 /// # Attributes
 ///
 /// * `vob` - An `Arc<Mutex<DualSideBook>>` that represents the Virtual Order Book. The mutex ensures
-///           safe concurrent access, while the `Arc` allows shared ownership across threads.
+///   safe concurrent access, while the `Arc` allows shared ownership across threads.
 ///
 ///
 /// # Methods
 ///
 /// * `new` - Creates a new `EventProcessor` with an initialized `DualSideBook`.
 /// * `process_event` - Handles the given `UniswapEvent`, updating the internal state and logging
-///                     relevant information. This method is asynchronous and takes optional
-///                     block number and transaction hash details.
+///   relevant information. This method is asynchronous and takes optional
+///   block number and transaction hash details.
 #[derive(Debug, Clone)]
 pub struct EventProcessor {
     vob: Arc<Mutex<DualSideBook>>,
@@ -76,7 +76,6 @@ impl EventProcessor {
                 effective_price,
                 side,
             } => {
-
                 vob.update_from_swap(eth_in, usdt_in, eth_out, usdt_out, effective_price, side);
                 info!(
                     "Swap event processed from: {} to: {}. Updated Virtual Order Book:\n{}",
