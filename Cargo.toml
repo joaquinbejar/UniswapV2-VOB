@@ -1,6 +1,6 @@
 [package]
 name = "uniswapv2_vob"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Joaquin Bejar <jb@taunais.com>"]
 description = "On-Chain Liquidity Intelligence Platform is a comprehensive Rust-based solution for real-time analysis of on-chain liquidity in decentralized finance (DeFi) protocols."
