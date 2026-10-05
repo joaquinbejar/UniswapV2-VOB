@@ -70,12 +70,12 @@ publish:
 
 .PHONY: coverage
 coverage:
-	cargo install cargo-tarpaulin
+	cargo install cargo-tarpaulin --locked --version '>=0.37.5'
 	mkdir -p coverage
 	cargo tarpaulin --all-features --workspace --timeout 120 --out Xml
 
 .PHONY: coverage-html
 coverage-html:
-	cargo install cargo-tarpaulin
+	cargo install cargo-tarpaulin --locked --version '>=0.37.5'
 	mkdir -p coverage
 	cargo tarpaulin --all-features --workspace --timeout 120 --out Html
